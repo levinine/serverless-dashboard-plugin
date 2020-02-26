@@ -18,7 +18,7 @@ class DashboardPlugin {
   }
 }
 
-const getWidgets = async (lambdaArray, widgetProps, region) => {
+const getWidgets = async (lambdaArray, widgetProps) => {
   const widget = new Widget(widgetProps);
   let widgets = [];
   for (const lambda of lambdaArray) widgets.push(widget.createWidget(lambda));
@@ -27,11 +27,11 @@ const getWidgets = async (lambdaArray, widgetProps, region) => {
 
 const main = (functions, region, dashboardName, widgetProps) => {
   let functionNames = [];
-  for (f in functions) {
+  for (let f in functions) {
     functionNames.push(functions[f].name);
   }
 
-  getWidgets(functionNames, widgetProps, region).then(widgets => {
+  getWidgets(functionNames, widgetProps).then(widgets => {
     const dashboard = new Dashboard(dashboardName, widgets, region);
     dashboard.createDashboard();
   });

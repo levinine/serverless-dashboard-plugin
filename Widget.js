@@ -13,7 +13,7 @@ class Widget {
   }
 
   createWidget(lambda) {
-    const metrics = [];
+    let metrics = [];
     if(this.properties) {
       for(const metric of this.properties.metrics) 
         metrics.push(['AWS/Lambda', metric, 'FunctionName', lambda]) 
@@ -39,7 +39,7 @@ class Widget {
         title: lambda
       }
     }
-  };
+  }
 }
 
 module.exports = Widget;

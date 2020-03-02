@@ -27,8 +27,8 @@ class DashboardPlugin {
 
   checkForAPI(functions) {
     const values = Object.values(functions);
-    
     let foundAPI = false;
+    
     values.map(value => {
       value.events.map(event => {
         if(event.http != 'undefined') {

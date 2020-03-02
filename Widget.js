@@ -1,7 +1,7 @@
 class Widget {
   constructor(props, region) {
     this.type = props.type || 'metric';
-    this.width = props.width || 7;
+    this.width = props.width || 8;
     this.height = props.height || 4;
     this.properties = props.properties || null;
     this.view = props.properties.view || 'singleValue';
@@ -23,7 +23,7 @@ class Widget {
         ['.', 'Errors', '.', '.']
       ]
     }
-    
+
     return {
       type: this.type,
       width: this.width,
@@ -40,6 +40,30 @@ class Widget {
       }
     }
   }
+
+  createApiWidget(apiName) {
+    const metrics = [
+      [ "AWS/ApiGateway", "Latency", "ApiName", apiName, { "stat": "Average" } ],
+      [ ".", "Count", ".", "." ],
+      [ ".", "5XXError", ".", "." ]
+    ]
+
+    return {
+      type: this.type,
+      width: this.width * 1.5,
+      height: this.height,
+      properties: {
+        metrics: metrics,
+        view: this.view,
+        region: this.region,
+        stat: this.stat,
+        period: this.period,
+        setPeriodToTimeRange: this.setPeriodToTimeRange,
+        title: apiName
+      }
+    }
+  }
 }
+
 
 module.exports = Widget;

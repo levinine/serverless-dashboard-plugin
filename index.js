@@ -35,6 +35,7 @@ class DashboardPlugin {
         }
       })
     });
+    
     return foundAPI;
   }
 

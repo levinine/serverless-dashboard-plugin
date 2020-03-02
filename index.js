@@ -1,7 +1,6 @@
 const Dashboard = require('./Dashboard');
 const ApiGateway = require('./ApiGateway');
 const Widget = require('./Widget');
-const util = require('util');
 
 class DashboardPlugin {
   constructor(serverless, options) {

@@ -1,6 +1,7 @@
 const Dashboard = require('./Dashboard');
 const ApiGateway = require('./ApiGateway');
 const Widget = require('./Widget');
+const util = require('util');
 
 class DashboardPlugin {
   constructor(serverless, options) {
@@ -11,7 +12,7 @@ class DashboardPlugin {
     this.region = serverless.service.provider.region;
     this.functions = this.service.functions;
     this.widgetProps = this.service.custom.dashboard || null;
-
+    
     this.hooks = {
       'after:deploy:finalize': () =>
         this.main(
@@ -24,16 +25,37 @@ class DashboardPlugin {
     };
   }
 
-  async getWidgets(functionNames, apiName, region, widgetProps) {
+  checkForAPI(functions) {
+    const values = Object.values(functions);
+    
+    let foundAPI = false;
+    values.map(value => {
+      value.events.map(event => {
+        if(event.http != 'undefined') {
+          foundAPI = true;
+        }
+      })
+    });
+    return foundAPI;
+  }
+
+  async getWidgets(functions, apiName, region, widgetProps) {
     const widget = new Widget(widgetProps);
     const apiGateway = new ApiGateway(apiName, region);
     let widgets = [];
 
-    for (const f of functionNames) widgets.push(widget.createWidget(f));
+    const functionNames = this.getFunctionNames(functions);
+    for (const f of functionNames) {
+      widgets.push(widget.createWidget(f));
+    } 
 
-    if (await apiGateway.getApi())
-      widgets.push(widget.createApiWidget(apiName));
-    else console.log('ApiGateway not found');
+    if(this.checkForAPI(functions)) {
+      if (await apiGateway.getApi()) {
+        widgets.push(widget.createApiWidget(apiName));
+      } else {
+        console.log('ApiGateway not found');
+      } 
+    }
 
     return widgets;
   }
@@ -47,10 +69,9 @@ class DashboardPlugin {
   }
 
   main(functions, region, stage, appName, widgetProps) {
-    const functionNames = this.getFunctionNames(functions);
     const apiName = `${stage}-${appName}`;
 
-    this.getWidgets(functionNames, apiName, region, widgetProps).then(
+    this.getWidgets(functions, apiName, region, widgetProps).then(
       widgets => {
         const dashboard = new Dashboard(appName, widgets, region);
         dashboard.createDashboard();

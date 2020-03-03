@@ -21,8 +21,11 @@ class Dashboard {
 
     
     this.cloudwatch.putDashboard(params, function(err) {
-      if (err) console.log(err, err.stack);
-      else console.log(`Sucessfully created dashboard ${params.DashboardName}`); 
+      if (err) {
+        console.log(err, err.stack);
+      } else {
+        console.log(`Sucessfully created dashboard ${params.DashboardName}`); 
+      } 
     });
   }
 }

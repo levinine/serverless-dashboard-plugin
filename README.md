@@ -59,7 +59,7 @@ API Gateway widgets can be globally deactivated by adding an `enabled` flag to t
 
 ```yaml
 serverlessDashboard:
-  dynamoDB:
+  apiGateway:
     enabled: false
 ```
 

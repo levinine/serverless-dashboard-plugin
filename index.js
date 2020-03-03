@@ -10,7 +10,16 @@ class DashboardPlugin {
     this.functions = this.service.functions;
     this.region = serverless.service.provider.region;
     this.functions = this.service.functions;
-    this.widgetProps = this.service.custom.dashboard || null;
+    this.customSettings = this.service.custom.serverlessDashboard || {};
+    
+    if(!this.customSettings.lambda) {
+      this.customSettings.lambda = { enabled: true}
+    } 
+    
+    if(!this.customSettings.apiGateway) {
+      this.customSettings.apiGateway = { enabled: true}
+    }
+    
     
     this.hooks = {
       'after:deploy:finalize': () =>
@@ -19,7 +28,7 @@ class DashboardPlugin {
           this.region,
           this.service.provider.stage,
           this.service.service,
-          this.widgetProps
+          this.customSettings,
         )
     };
   }
@@ -39,24 +48,28 @@ class DashboardPlugin {
     return foundAPI;
   }
 
-  async getWidgets(functions, apiName, region, widgetProps) {
-    const widget = new Widget(widgetProps);
+  async getWidgets(functions, apiName, region, customSettings) {
+    const widget = new Widget(region);
     const apiGateway = new ApiGateway(apiName, region);
     let widgets = [];
 
-    const functionNames = this.getFunctionNames(functions);
-    for (const f of functionNames) {
-      widgets.push(widget.createWidget(f));
-    } 
-
-    if(this.checkForAPI(functions)) {
-      if (await apiGateway.getApi()) {
-        widgets.push(widget.createApiWidget(apiName));
-      } else {
-        console.log('ApiGateway not found');
-      } 
+    if(customSettings.lambda.enabled != false ) {
+      const functionNames = this.getFunctionNames(functions);
+      for (const f of functionNames) {
+        widgets.push(widget.createWidget(f));
+      }  
+    }``
+     
+    if(customSettings.apiGateway.enabled != false) {
+      if(this.checkForAPI(functions)) {
+        if (await apiGateway.getApi()) {
+          widgets.push(widget.createApiWidget(apiName));
+        } else {
+          console.log('ApiGateway not found');
+        } 
+      }
     }
-
+    
     return widgets;
   }
 
@@ -68,10 +81,10 @@ class DashboardPlugin {
     return functionNames;
   }
 
-  main(functions, region, stage, appName, widgetProps) {
+  main(functions, region, stage, appName, customSettings) {
     const apiName = `${stage}-${appName}`;
 
-    this.getWidgets(functions, apiName, region, widgetProps).then(
+    this.getWidgets(functions, apiName, region, customSettings).then(
       widgets => {
         const dashboard = new Dashboard(appName, widgets, region);
         dashboard.createDashboard();

@@ -87,4 +87,6 @@ These quotas cannot be changed.
 
 See the full list of [CloudWatch Service Quotas](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_limits.html)
 
+## AWS CloudWatch pricing
+
 See the full list of [Amazon CloudWatch pricing](https://aws.amazon.com/cloudwatch/pricing/) 

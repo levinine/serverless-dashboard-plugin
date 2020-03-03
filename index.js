@@ -53,14 +53,14 @@ class DashboardPlugin {
     const apiGateway = new ApiGateway(apiName, region);
     let widgets = [];
 
-    if(customSettings.lambda.enabled != false ) {
+    if(customSettings.lambda.enabled === true) {
       const functionNames = this.getFunctionNames(functions);
       for (const f of functionNames) {
         widgets.push(widget.createWidget(f));
       }  
     }``
      
-    if(customSettings.apiGateway.enabled != false) {
+    if(customSettings.apiGateway.enabled === true) {
       if(this.checkForAPI(functions)) {
         if (await apiGateway.getApi()) {
           widgets.push(widget.createApiWidget(apiName));

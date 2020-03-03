@@ -78,6 +78,8 @@ Created Dashboard
 
 ## AWS Dashboard limits
 
+Reaching these limits is improbable.
+
 Up to 100 metrics per dashboard widget. Up to 500 metrics per dashboard, across all widgets.
 
 These quotas include all metrics retrieved for use in metric math functions, even if those metrics are not displayed on the graph.

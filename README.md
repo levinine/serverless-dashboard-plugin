@@ -69,11 +69,10 @@ serverlessDashboard:
 Once configured the plugin will run each time you deploy your serverless app and update CloudWatch dashboard to the current structure of the app. 
 
 The message seen after deploy
-![Image of create dashboard](https://i.ibb.co/YQbWYpG/Screenshot-from-2020-03-03-14-32-02.png)
-
+![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797522-988aa000-5d75-11ea-853e-60aaccf4f3f9.png)
 
 Created Dashboard
-![Image of create dashboard](https://i.ibb.co/9NZMTcV/Screenshot-from-2020-03-03-14-09-33.png)
+![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797496-8c064780-5d75-11ea-9d31-44a2a610f3a9.png)
 
 
 ## AWS Dashboard limits
@@ -85,3 +84,7 @@ Up to 100 metrics per dashboard widget. Up to 500 metrics per dashboard, across 
 These quotas include all metrics retrieved for use in metric math functions, even if those metrics are not displayed on the graph.
 
 These quotas cannot be changed.
+
+See the full list of [CloudWatch Service Quotas](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_limits.html)
+
+See the full list of [Amazon CloudWatch pricing](https://aws.amazon.com/cloudwatch/pricing/) 

@@ -21,10 +21,16 @@ class DashboardPlugin {
     
     if(options.lambda === 'false') {
       this.customSettings.lambda.enabled = false;
+    } 
+    else if (options.lambda === 'true') {
+      this.customSettings.lambda.enabled = true;
     }
 
     if(options.apiGateway === 'false') {
       this.customSettings.apiGateway.enabled = false;
+    }
+    else if(options.apiGateway === 'true') {
+      this.customSettings.apiGateway.enabled = true;
     }
 
     this.hooks = {

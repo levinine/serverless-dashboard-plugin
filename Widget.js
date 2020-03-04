@@ -1,15 +1,15 @@
 class Widget {
-  constructor(props, region) {
-    this.type = props.type || 'metric';
-    this.width = props.width || 8;
-    this.height = props.height || 4;
-    this.properties = props.properties || null;
-    this.view = props.properties.view || 'singleValue';
-    this.stacked = props.properties.stacked || false;
-    this.region = props.properties.region || region; // ?????
-    this.stat = props.properties.stat || 'Sum';
-    this.period = props.properties.period || 3600;
-    this.setPeriodToTimeRange = props.properties.setPeriodToTimeRange || true;
+  constructor (region) {
+    this.type = 'metric';
+    this.width = 8;
+    this.height = 4;
+    this.properties = null;
+    this.view = 'singleValue';
+    this.stacked = false;
+    this.region = region; 
+    this.stat = 'Sum';
+    this.period = 3600;
+    this.setPeriodToTimeRange = true;
   }
 
   createWidget(lambda) {

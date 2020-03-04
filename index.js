@@ -10,26 +10,24 @@ class DashboardPlugin {
     this.region = serverless.service.provider.region;
     this.functions = this.service.functions;
     this.customSettings = this.service.custom.serverlessDashboard || {};
-    
-    if(!this.customSettings.lambda) {
-      this.customSettings.lambda = { enabled: true}
-    } 
-    
-    if(!this.customSettings.apiGateway) {
-      this.customSettings.apiGateway = { enabled: true}
+
+    if (!this.customSettings.lambda) {
+      this.customSettings.lambda = { enabled: true };
     }
-    
-    if(options.lambda === 'false') {
+
+    if (!this.customSettings.apiGateway) {
+      this.customSettings.apiGateway = { enabled: true };
+    }
+
+    if (options.lambda === 'false') {
       this.customSettings.lambda.enabled = false;
-    } 
-    else if (options.lambda === 'true') {
+    } else if (options.lambda === 'true') {
       this.customSettings.lambda.enabled = true;
     }
 
-    if(options.apiGateway === 'false') {
+    if (options.apiGateway === 'false') {
       this.customSettings.apiGateway.enabled = false;
-    }
-    else if(options.apiGateway === 'true') {
+    } else if (options.apiGateway === 'true') {
       this.customSettings.apiGateway.enabled = true;
     }
 
@@ -40,23 +38,25 @@ class DashboardPlugin {
           this.region,
           this.service.provider.stage,
           this.service.service,
-          this.customSettings,
-        )
+          this.customSettings
+        ),
+      'remove:remove': () =>
+        this.remove(this.service.service, this.region)
     };
   }
 
   checkForAPI(functions) {
     const values = Object.values(functions);
     let foundAPI = false;
-    
+
     values.map(value => {
       value.events.map(event => {
-        if(event.http != 'undefined') {
+        if (event.http != 'undefined') {
           foundAPI = true;
         }
-      })
+      });
     });
-    
+
     return foundAPI;
   }
 
@@ -65,23 +65,23 @@ class DashboardPlugin {
     const apiGateway = new ApiGateway(apiName, region);
     let widgets = [];
 
-    if(customSettings.lambda.enabled === true) {
+    if (customSettings.lambda.enabled === true) {
       const functionNames = this.getFunctionNames(functions);
       for (const f of functionNames) {
         widgets.push(widget.createWidget(f));
-      }  
-    }``
-     
-    if(customSettings.apiGateway.enabled === true) {
-      if(this.checkForAPI(functions)) {
+      }
+    }
+
+    if (customSettings.apiGateway.enabled === true) {
+      if (this.checkForAPI(functions)) {
         if (await apiGateway.getApi()) {
           widgets.push(widget.createApiWidget(apiName));
         } else {
           console.log('ApiGateway not found');
-        } 
+        }
       }
     }
-    
+
     return widgets;
   }
 
@@ -102,6 +102,11 @@ class DashboardPlugin {
         dashboard.createDashboard();
       }
     );
+  }
+
+  remove(dashboardName, region) {
+    const dashboard = new Dashboard(dashboardName, null, region);
+    dashboard.removeDashboard();
   }
 }
 

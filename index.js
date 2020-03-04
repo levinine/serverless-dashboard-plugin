@@ -5,7 +5,6 @@ const Widget = require('./Widget');
 class DashboardPlugin {
   constructor(serverless, options) {
     this.serverless = serverless;
-    this.options = options;
     this.service = serverless.service;
     this.functions = this.service.functions;
     this.region = serverless.service.provider.region;
@@ -20,7 +19,14 @@ class DashboardPlugin {
       this.customSettings.apiGateway = { enabled: true}
     }
     
-    
+    if(options.lambda === 'false') {
+      this.customSettings.lambda.enabled = false;
+    }
+
+    if(options.apiGateway === 'false') {
+      this.customSettings.apiGateway.enabled = false;
+    }
+
     this.hooks = {
       'after:deploy:finalize': () =>
         this.main(

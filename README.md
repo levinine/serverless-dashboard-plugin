@@ -81,6 +81,8 @@ Message seen after deploy
 Created Dashboard
 ![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797496-8c064780-5d75-11ea-9d31-44a2a610f3a9.png)
 
+On deleting the stack from the command line, the plugin will delete the dashboard.
+![Image of removed dashboard](https://user-images.githubusercontent.com/18051308/75879020-e2799180-5e1a-11ea-8c03-dbcf38c32783.png)
 
 ## AWS Dashboard limits
 

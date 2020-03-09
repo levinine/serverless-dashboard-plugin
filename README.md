@@ -69,7 +69,7 @@ serverlessDashboard:
 Once configured the plugin will run each time you deploy your serverless app and update CloudWatch dashboard to the current structure of the app. 
 
 The message seen after deploy
-![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797522-988aa000-5d75-11ea-853e-60aaccf4f3f9.png)
+![Image of create dashboard](https://user-images.githubusercontent.com/18051308/76212922-d5d5ae80-6209-11ea-9094-ba722ae96595.png)
 
 Created Dashboard
 ![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797496-8c064780-5d75-11ea-9d31-44a2a610f3a9.png)

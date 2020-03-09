@@ -29,6 +29,20 @@ class Dashboard {
     })
     .catch(error => console.log(error));
   }
+
+  removeDashboard() {
+    const params = {
+      DashboardNames: [ this.name ]
+    }
+
+    this.cloudwatch.deleteDashboards(params, function(err) {
+      if(err) {
+        console.log(err, err.stack);
+      } else {
+        console.log(`Sucessfully deleted dashboard ${params.DashboardNames[0]}`)
+      }
+    });
+  }
 }
 
 module.exports = Dashboard;

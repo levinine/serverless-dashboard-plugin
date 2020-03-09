@@ -45,7 +45,7 @@ service. Following widgets are currently supported:
 
 #### Lambda Widgets
 
-Lambda widgets can be globally deactivated for all functions by adding an `enabled` flag to the configuration and setting it to false. By default they are enabled.
+Lambda widgets can be globally deactivated for all functions by adding an `enabled` flag to the configuration and setting it to `false`. By default they are enabled.
 
 ```yaml
 serverlessDashboard:
@@ -55,7 +55,7 @@ serverlessDashboard:
 
 #### API Gateway Widgets
 
-API Gateway widgets can be globally deactivated by adding an `enabled` flag to the configuration and setting it to false. By default they are enabled.
+API Gateway widgets can be globally deactivated by adding an `enabled` flag to the configuration and setting it to `false`. By default they are enabled.
 
 ```yaml
 serverlessDashboard:
@@ -63,17 +63,26 @@ serverlessDashboard:
     enabled: false
 ```
 
+#### Command line options
+```
+--lambda               Set to true or false, overrides enabled flag in serverless.yml
+--apiGateway           Set to true or false, overrides enabled flag in serverless.yml
+```
+Options passed on the command line override YAML options.
+
 
 
 ## Usage
 Once configured the plugin will run each time you deploy your serverless app and update CloudWatch dashboard to the current structure of the app. 
 
-The message seen after deploy
+Message seen after deploy
 ![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797522-988aa000-5d75-11ea-853e-60aaccf4f3f9.png)
 
 Created Dashboard
 ![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797496-8c064780-5d75-11ea-9d31-44a2a610f3a9.png)
 
+On deleting the stack from the command line, the plugin will delete the dashboard.
+![Image of removed dashboard](https://user-images.githubusercontent.com/18051308/75879020-e2799180-5e1a-11ea-8c03-dbcf38c32783.png)
 
 ## AWS Permissions
 

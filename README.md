@@ -75,13 +75,8 @@ Options passed on the command line override YAML options.
 ## Usage
 Once configured the plugin will run each time you deploy your serverless app and update CloudWatch dashboard to the current structure of the app. 
 
-<<<<<<< HEAD
 The message seen after deploy
-![Image of create dashboard](https://user-images.githubusercontent.com/18051308/76212922-d5d5ae80-6209-11ea-9094-ba722ae96595.png)
-=======
-Message seen after deploy
-![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797522-988aa000-5d75-11ea-853e-60aaccf4f3f9.png)
->>>>>>> 756a9a33245b29fc527e5eac3fe297bae845d459
+![Image of create dashboard](https://user-images.githubusercontent.com/18051308/76213458-0407be00-620b-11ea-9ba1-c43b13998a0f.png)
 
 Created Dashboard
 ![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797496-8c064780-5d75-11ea-9d31-44a2a610f3a9.png)

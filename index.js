@@ -10,18 +10,18 @@ class DashboardPlugin {
     this.region = serverless.service.provider.region;
     this.functions = this.service.functions;
     this.customSettings = this.service.custom.serverlessDashboard || {};
-    
+
     if(!this.customSettings.lambda) {
       this.customSettings.lambda = { enabled: true}
-    } 
-    
+    }
+
     if(!this.customSettings.apiGateway) {
       this.customSettings.apiGateway = { enabled: true}
     }
-    
+
     if(options.lambda === 'false') {
       this.customSettings.lambda.enabled = false;
-    } 
+    }
     else if (options.lambda === 'true') {
       this.customSettings.lambda.enabled = true;
     }
@@ -48,7 +48,7 @@ class DashboardPlugin {
   checkForAPI(functions) {
     const values = Object.values(functions);
     let foundAPI = false;
-    
+
     values.map(value => {
       value.events.map(event => {
         if(event.http != 'undefined') {
@@ -56,7 +56,7 @@ class DashboardPlugin {
         }
       })
     });
-    
+
     return foundAPI;
   }
 
@@ -69,19 +69,19 @@ class DashboardPlugin {
       const functionNames = this.getFunctionNames(functions);
       for (const f of functionNames) {
         widgets.push(widget.createWidget(f));
-      }  
-    }``
-     
+      }
+    }''
+
     if(customSettings.apiGateway.enabled === true) {
       if(this.checkForAPI(functions)) {
         if (await apiGateway.getApi()) {
           widgets.push(widget.createApiWidget(apiName));
         } else {
           console.log('ApiGateway not found');
-        } 
+        }
       }
     }
-    
+
     return widgets;
   }
 

@@ -2,10 +2,9 @@ const AWS = require('aws-sdk');
 
 class ApiGateway {
   constructor(apiName, region) {
+    this.apigateway = new AWS.APIGateway({region:region});
+    this.checkApi = this.checkApi.bind(this);
     this.apiName = apiName;
-    this.region = region;
-   
-    this.checkApi = this.checkApi.bind(this)
   }
 
   checkApi(api) {
@@ -13,10 +12,8 @@ class ApiGateway {
   }
 
   async getApi() {
-    const apigateway = new AWS.APIGateway({region:this.region});
-    const result = await apigateway.getRestApis({}).promise();
-    
-    return result.items.find(this.checkApi);    
+    const result = await this.apigateway.getRestApis({}).promise();
+    return result.items.find(this.checkApi);
   }
 }
 

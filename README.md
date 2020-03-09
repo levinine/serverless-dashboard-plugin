@@ -75,6 +75,19 @@ Created Dashboard
 ![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797496-8c064780-5d75-11ea-9d31-44a2a610f3a9.png)
 
 
+## AWS Permissions
+
+Listed below are AWS permissions needed for a sucessful deploy with serverless-dashboard-plugin 
+
+cloudwatch:GetDashboard and cloudwatch:ListDashboards to be able to view dashboards
+
+cloudwatch:PutDashboard to be able to create or modify dashboards
+
+cloudwatch:DeleteDashboards to be able to delete dashboards
+
+apigateway:getRestApis to be able to check for available APIs
+
+
 ## AWS Dashboard limits
 
 Reaching these limits is improbable.

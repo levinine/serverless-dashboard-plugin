@@ -79,13 +79,13 @@ Created Dashboard
 
 Listed below are AWS permissions needed for a sucessful deploy with serverless-dashboard-plugin 
 
-cloudwatch:GetDashboard and cloudwatch:ListDashboards to be able to view dashboards
+- cloudwatch:GetDashboard and cloudwatch:ListDashboards to be able to view dashboards
 
-cloudwatch:PutDashboard to be able to create or modify dashboards
+- cloudwatch:PutDashboard to be able to create or modify dashboards
 
-cloudwatch:DeleteDashboards to be able to delete dashboards
+- cloudwatch:DeleteDashboards to be able to delete dashboards
 
-apigateway:GET to be able to check for available APIs
+- apigateway:GET to be able to check for available APIs
 
 
 ## AWS Dashboard limits

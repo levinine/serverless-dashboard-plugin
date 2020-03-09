@@ -23,7 +23,7 @@ class Dashboard {
     await this.cloudwatch.putDashboard(params).promise()
     .then(() => {
       console.log(
-        `Sucessfully created dashboard ${params.DashboardName}.` +
+        `Successfully created dashboard ${params.DashboardName}.` +
           `Open it at https://${this.region}.console.aws.amazon.com/cloudwatch/home?region=${this.region}#dashboards:name=${params.DashboardName}`
       );
     })

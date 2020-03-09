@@ -85,7 +85,7 @@ cloudwatch:PutDashboard to be able to create or modify dashboards
 
 cloudwatch:DeleteDashboards to be able to delete dashboards
 
-apigateway:getRestApis to be able to check for available APIs
+apigateway:GET to be able to check for available APIs
 
 
 ## AWS Dashboard limits

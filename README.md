@@ -75,14 +75,27 @@ Options passed on the command line override YAML options.
 ## Usage
 Once configured the plugin will run each time you deploy your serverless app and update CloudWatch dashboard to the current structure of the app. 
 
-Message seen after deploy
-![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797522-988aa000-5d75-11ea-853e-60aaccf4f3f9.png)
+The message seen after deploy
+![Image of create dashboard](https://user-images.githubusercontent.com/18051308/76213593-4b8e4a00-620b-11ea-9fb5-7151ff0ef361.png)
 
 Created Dashboard
 ![Image of create dashboard](https://user-images.githubusercontent.com/18051308/75797496-8c064780-5d75-11ea-9d31-44a2a610f3a9.png)
 
 On deleting the stack from the command line, the plugin will delete the dashboard.
 ![Image of removed dashboard](https://user-images.githubusercontent.com/18051308/75879020-e2799180-5e1a-11ea-8c03-dbcf38c32783.png)
+
+## AWS Permissions
+
+Listed below are AWS permissions needed for a sucessful deploy with serverless-dashboard-plugin 
+
+- cloudwatch:GetDashboard and cloudwatch:ListDashboards to be able to view dashboards
+
+- cloudwatch:PutDashboard to be able to create or modify dashboards
+
+- cloudwatch:DeleteDashboards to be able to delete dashboards
+
+- apigateway:GET to be able to check for available APIs
+
 
 ## AWS Dashboard limits
 

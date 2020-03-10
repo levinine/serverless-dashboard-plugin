@@ -6,7 +6,7 @@ class Widget {
     this.properties = null;
     this.view = 'singleValue';
     this.stacked = false;
-    this.region = region; 
+    this.region = region;
     this.stat = 'Sum';
     this.period = 3600;
     this.setPeriodToTimeRange = true;
@@ -16,7 +16,7 @@ class Widget {
     let metrics = [];
     if(this.properties) {
       for(const metric of this.properties.metrics) {
-        metrics.push(['AWS/Lambda', metric, 'FunctionName', lambda]) 
+        metrics.push(['AWS/Lambda', metric, 'FunctionName', lambda])
       }
     } else {
       metrics = [
@@ -44,9 +44,9 @@ class Widget {
 
   createApiWidget(apiName) {
     const metrics = [
-      [ "AWS/ApiGateway", "Latency", "ApiName", apiName, { "stat": "Average" } ],
-      [ ".", "Count", ".", "." ],
-      [ ".", "5XXError", ".", "." ]
+      [ 'AWS/ApiGateway', 'Latency', 'ApiName', apiName, { 'stat': 'Average' } ],
+      [ '.', 'Count', '.', '.' ],
+      [ '.', '5XXError', '.', '.' ]
     ]
 
     return {
@@ -65,6 +65,5 @@ class Widget {
     }
   }
 }
-
 
 module.exports = Widget;

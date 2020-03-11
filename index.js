@@ -69,14 +69,14 @@ class DashboardPlugin {
     if (configuration.lambda.enabled === true) {
       const functionNames = this.getFunctionNames(functions);
       for (const functionName of functionNames) {
-        widgets.push(widget.createWidget(functionName));
+        widgets.push(widget.createLambdaWidget(functionName));
       }
     }
 
     if (configuration.apiGateway.enabled === true) {
       if (this.checkForAPI(functions)) {
         if (await apiGateway.getApi()) {
-          widgets.push(widget.createApiWidget(apiName));
+          widgets.push(widget.createApiGatewayWidget(apiName));
         } else {
           console.log('ApiGateway not found');
         }

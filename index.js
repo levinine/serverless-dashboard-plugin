@@ -7,7 +7,7 @@ class DashboardPlugin {
     this.serverless = serverless;
     this.options = options;
     this.hooks = {
-      'after:package:finalize': () => {
+      'after:deploy:finalize': () => {
         const configuration = this.mergeConfiguration(this.serverless.service.custom.serverlessDashboard, this.options);
         return this.createDashboard(
           this.serverless.service.functions,

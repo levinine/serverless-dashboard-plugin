@@ -1,14 +1,29 @@
 {
-  "name": "@krekeri/dashboard-plugin",
-  "version": "1.0.4",
-  "description": "Create a dashboard for you lambda functions",
+  "name": "serverless-dashboard",
+  "version": "1.0.0",
+  "description": "Create CloudWatch Dashboard when deploying your Serverless application",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "contributors": [
+    {
+      "name": "Borisa Zelenovic",
+      "email": "b.zelenovic@levi9.com",
+      "url": "https://github.com/zelenins"
+    },
+    {
+      "name": "Milos Jovanovic",
+      "email": "m.jovanovic@levi9.com",
+      "url": "https://github.com/mjovanovic"
+    }
+  ],
+  "homepage": "https://github.com/levinine/serverless-dashboard-plugin",
   "license": "MIT",
   "devDependencies": {
     "eslint": "^6.8.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.637.0"
   }
 }

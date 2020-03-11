@@ -16,32 +16,35 @@ class Dashboard {
     };
 
     const params = {
-      DashboardBody: JSON.stringify(dashboard) /* required */,
-      DashboardName: this.name /* required */
+      DashboardBody: JSON.stringify(dashboard),
+      DashboardName: this.name
     };
 
     await this.cloudwatch.putDashboard(params).promise()
-    .then(() => {
-      console.log(
-        `Successfully created dashboard ${params.DashboardName}.` +
+      .then(() => {
+        console.log(
+          `Successfully created dashboard ${params.DashboardName}. ` +
           `Open it at https://${this.region}.console.aws.amazon.com/cloudwatch/home?region=${this.region}#dashboards:name=${params.DashboardName}`
-      );
-    })
-    .catch(error => console.log(error));
+        );
+      })
+      .catch(error => {
+        console.log('error creating dashbord with params', JSON.stringify(params, null, 2));
+        console.log(error, error.stack);
+      });
   }
 
-  removeDashboard() {
+  async removeDashboard() {
     const params = {
-      DashboardNames: [ this.name ]
+      DashboardNames: [this.name]
     }
 
-    this.cloudwatch.deleteDashboards(params, function(err) {
-      if(err) {
-        console.log(err, err.stack);
-      } else {
-        console.log(`Sucessfully deleted dashboard ${params.DashboardNames[0]}`)
-      }
-    });
+    await this.cloudwatch.deleteDashboards(params).promise()
+      .then(() => {
+        console.log(`Sucessfully deleted dashboard ${params.DashboardNames[0]}`);
+      })
+      .catch(error => {
+        console.log(error, error.stack);
+      });
   }
 }
 

@@ -1,5 +1,5 @@
 class Widget {
-  constructor (region) {
+  constructor(region) {
     this.type = 'metric';
     this.width = 8;
     this.height = 4;
@@ -14,8 +14,8 @@ class Widget {
 
   createWidget(lambda) {
     let metrics = [];
-    if(this.properties) {
-      for(const metric of this.properties.metrics) {
+    if (this.properties) {
+      for (const metric of this.properties.metrics) {
         metrics.push(['AWS/Lambda', metric, 'FunctionName', lambda])
       }
     } else {
@@ -37,16 +37,16 @@ class Widget {
         stat: this.stat,
         period: this.period,
         setPeriodToTimeRange: this.setPeriodToTimeRange,
-        title: lambda
+        title: `Lambda ${lambda}`
       }
     }
   }
 
   createApiWidget(apiName) {
     const metrics = [
-      [ 'AWS/ApiGateway', 'Latency', 'ApiName', apiName, { 'stat': 'Average' } ],
-      [ '.', 'Count', '.', '.' ],
-      [ '.', '5XXError', '.', '.' ]
+      ['AWS/ApiGateway', 'Latency', 'ApiName', apiName, { 'stat': 'Average' }],
+      ['.', 'Count', '.', '.'],
+      ['.', '5XXError', '.', '.']
     ]
 
     return {
@@ -60,7 +60,7 @@ class Widget {
         stat: this.stat,
         period: this.period,
         setPeriodToTimeRange: this.setPeriodToTimeRange,
-        title: apiName
+        title: `ApiGateway ${apiName}`
       }
     }
   }

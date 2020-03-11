@@ -5,44 +5,45 @@ const Widget = require('./Widget');
 class DashboardPlugin {
   constructor(serverless, options) {
     this.serverless = serverless;
-    this.service = serverless.service;
-    this.functions = this.service.functions;
-    this.region = serverless.service.provider.region;
-    this.functions = this.service.functions;
-    this.customSettings = this.service.custom.serverlessDashboard || {};
-
-    if (!this.customSettings.lambda) {
-      this.customSettings.lambda = { enabled: true };
-    }
-
-    if (!this.customSettings.apiGateway) {
-      this.customSettings.apiGateway = { enabled: true };
-    }
-
-    if (options.lambda === 'false') {
-      this.customSettings.lambda.enabled = false;
-    } else if (options.lambda === 'true') {
-      this.customSettings.lambda.enabled = true;
-    }
-
-    if (options.apiGateway === 'false') {
-      this.customSettings.apiGateway.enabled = false;
-    } else if (options.apiGateway === 'true') {
-      this.customSettings.apiGateway.enabled = true;
-    }
-
+    this.options = options;
     this.hooks = {
-      'after:deploy:finalize': () =>
-        this.main(
-          this.functions,
-          this.region,
-          this.service.provider.stage,
-          this.service.service,
-          this.customSettings
-        ),
-      'remove:remove': () =>
-        this.remove(this.service.service, this.region)
+      'after:deploy:finalize': () => {
+        const configuration = this.mergeConfiguration(this.serverless.service.custom.serverlessDashboard, this.options);
+        return this.createDashboard(
+          this.serverless.service.functions,
+          this.serverless.service.service,
+          this.serverless.service.provider.region,
+          this.serverless.service.provider.stage,
+          configuration
+        );
+      },
+      'remove:remove': () => {
+        return this.removeDashboard(
+          this.serverless.service.service,
+          this.serverless.service.provider.region,
+          this.serverless.service.provider.stage
+        );
+      }
     };
+  }
+
+  mergeConfiguration(yamlConfiguration, cliConfiguration) {
+    const configuration = yamlConfiguration || {};
+    configuration.lambda = configuration.lambda || { enabled: true };
+    configuration.apiGateway = configuration.apiGateway || { enabled: true };
+
+    if (cliConfiguration.dashboardLambda === 'false') {
+      configuration.lambda.enabled = false;
+    } else if (cliConfiguration.dashboardLambda === 'true') {
+      configuration.lambda.enabled = true;
+    }
+
+    if (cliConfiguration.dashboardApiGateway === 'false') {
+      configuration.apiGateway.enabled = false;
+    } else if (cliConfiguration.dashboardApiGateway === 'true') {
+      configuration.apiGateway.enabled = true;
+    }
+    return configuration;
   }
 
   checkForAPI(functions) {
@@ -50,7 +51,7 @@ class DashboardPlugin {
     let foundAPI = false;
 
     values.map(value => {
-      value.events.map(event => {
+      value.events && value.events.map(event => {
         if (event.http != 'undefined') {
           foundAPI = true;
         }
@@ -60,22 +61,22 @@ class DashboardPlugin {
     return foundAPI;
   }
 
-  async getWidgets(functions, apiName, region, customSettings) {
+  async getWidgets(functions, apiName, region, configuration) {
     const widget = new Widget(region);
     const apiGateway = new ApiGateway(apiName, region);
     let widgets = [];
 
-    if (customSettings.lambda.enabled === true) {
+    if (configuration.lambda.enabled === true) {
       const functionNames = this.getFunctionNames(functions);
-      for (const f of functionNames) {
-        widgets.push(widget.createWidget(f));
+      for (const functionName of functionNames) {
+        widgets.push(widget.createLambdaWidget(functionName));
       }
     }
 
-    if (customSettings.apiGateway.enabled === true) {
+    if (configuration.apiGateway.enabled === true) {
       if (this.checkForAPI(functions)) {
         if (await apiGateway.getApi()) {
-          widgets.push(widget.createApiWidget(apiName));
+          widgets.push(widget.createApiGatewayWidget(apiName));
         } else {
           console.log('ApiGateway not found');
         }
@@ -93,20 +94,20 @@ class DashboardPlugin {
     return functionNames;
   }
 
-  main(functions, region, stage, appName, customSettings) {
-    const apiName = `${stage}-${appName}`;
+  createDashboard(functions, serviceName, region, stage, configuration) {
+    const apiName = `${stage}-${serviceName}`;
 
-    this.getWidgets(functions, apiName, region, customSettings).then(
+    return this.getWidgets(functions, apiName, region, configuration).then(
       widgets => {
-        const dashboard = new Dashboard(appName, widgets, region);
-        dashboard.createDashboard();
+        const dashboard = new Dashboard(`${serviceName}-${stage}`, widgets, region);
+        return dashboard.createDashboard();
       }
     );
   }
 
-  remove(dashboardName, region) {
-    const dashboard = new Dashboard(dashboardName, null, region);
-    dashboard.removeDashboard();
+  removeDashboard(serviceName, region, stage) {
+    const dashboard = new Dashboard(`${serviceName}-${stage}`, null, region);
+    return dashboard.removeDashboard();
   }
 }
 

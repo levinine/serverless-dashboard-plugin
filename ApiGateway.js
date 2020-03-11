@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 
 class ApiGateway {
   constructor(apiName, region) {
-    this.apigateway = new AWS.APIGateway({region:region});
+    this.apigateway = new AWS.APIGateway({ region });
     this.checkApi = this.checkApi.bind(this);
     this.apiName = apiName;
   }

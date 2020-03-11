@@ -1,9 +1,8 @@
 class Widget {
-  constructor (region) {
+  constructor(region) {
     this.type = 'metric';
     this.width = 8;
     this.height = 4;
-    this.properties = null;
     this.view = 'singleValue';
     this.stacked = false;
     this.region = region;
@@ -12,18 +11,11 @@ class Widget {
     this.setPeriodToTimeRange = true;
   }
 
-  createWidget(lambda) {
-    let metrics = [];
-    if(this.properties) {
-      for(const metric of this.properties.metrics) {
-        metrics.push(['AWS/Lambda', metric, 'FunctionName', lambda])
-      }
-    } else {
-      metrics = [
-        ['AWS/Lambda', 'Invocations', 'FunctionName', lambda],
-        ['.', 'Errors', '.', '.']
-      ]
-    }
+  createLambdaWidget(lambda) {
+    const metrics = [
+      ['AWS/Lambda', 'Invocations', 'FunctionName', lambda],
+      ['.', 'Errors', '.', '.']
+    ];
 
     return {
       type: this.type,
@@ -37,17 +29,17 @@ class Widget {
         stat: this.stat,
         period: this.period,
         setPeriodToTimeRange: this.setPeriodToTimeRange,
-        title: lambda
+        title: `Lambda ${lambda}`
       }
     }
   }
 
-  createApiWidget(apiName) {
+  createApiGatewayWidget(apiName) {
     const metrics = [
-      [ 'AWS/ApiGateway', 'Latency', 'ApiName', apiName, { 'stat': 'Average' } ],
-      [ '.', 'Count', '.', '.' ],
-      [ '.', '5XXError', '.', '.' ]
-    ]
+      ['AWS/ApiGateway', 'Latency', 'ApiName', apiName, { 'stat': 'Average' }],
+      ['.', 'Count', '.', '.'],
+      ['.', '5XXError', '.', '.']
+    ];
 
     return {
       type: this.type,
@@ -60,7 +52,7 @@ class Widget {
         stat: this.stat,
         period: this.period,
         setPeriodToTimeRange: this.setPeriodToTimeRange,
-        title: apiName
+        title: `ApiGateway ${apiName}`
       }
     }
   }

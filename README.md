@@ -3,8 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-Create CloudWatch Dashboard when deploying your Serverless application.                            
-Serverless plugin to generate AWS CloudWatch dashboard for deployed Lambdas and API Gateways
+Serverless plugin to generate AWS CloudWatch dashboard for deployed Lambdas and API Gateway.
 
 **Requirements:**
 * Serverless *v1.12.x* or higher
@@ -12,28 +11,21 @@ Serverless plugin to generate AWS CloudWatch dashboard for deployed Lambdas and 
 
 ## Setup
 
-
 ### Installation
 
 Install via npm in the root of your Serverless service:
 
 ```sh
-npm install --save-dev serverless-dashboard-plugin
+npm install --save-dev serverless-dashboard
 ```
 
-Install from local directory in the root of your Serverless service:
-
-```sh
-npm install -D path-to-plugin-directory
-```
-
-Then inside your project's serverless.yml file add following entry to the plugins section: `serverless-dashboard-plugin` If there is no plugin section you will need to add it to the file.
+Then inside your project's serverless.yml file add following entry to the plugins section: `serverless-dashboard`. If there is no plugin section you will need to add it to the file.
 
 It should look something like this:
 
 ```yml
 plugins:
-  - serverless-dashboard-plugin
+  - serverless-dashboard
 ```
 
 ### Configuration
@@ -53,9 +45,9 @@ serverlessDashboard:
     enabled: false
 ```
 
-#### API Gateway Widgets
+#### API Gateway Widget
 
-API Gateway widgets can be globally deactivated by adding an `enabled` flag to the configuration and setting it to `false`. By default they are enabled.
+One widget is created for API Gateway resource, even if there are many Lambdas triggered by HTTP events. This widget can be globally deactivated by adding an `enabled` flag to the configuration and setting it to `false`. By default they are enabled for applications which have HTTP triggered Lambdas.
 
 ```yaml
 serverlessDashboard:
@@ -65,11 +57,10 @@ serverlessDashboard:
 
 #### Command line options
 ```
---lambda               Set to true or false, overrides enabled flag in serverless.yml
---apiGateway           Set to true or false, overrides enabled flag in serverless.yml
+--dashboardLambda               Set to true or false, overrides enabled flag in serverless.yml
+--dashboardApiGateway           Set to true or false, overrides enabled flag in serverless.yml
 ```
 Options passed on the command line override YAML options.
-
 
 
 ## Usage
@@ -88,14 +79,14 @@ On deleting the stack from the command line, the plugin will delete the dashboar
 
 Listed below are AWS permissions needed for a sucessful deploy with serverless-dashboard-plugin 
 
-- cloudwatch:GetDashboard and cloudwatch:ListDashboards to be able to view dashboards
+- `cloudwatch:PutDashboard` to be able to create or modify dashboards
+- `cloudwatch:DeleteDashboards` to be able to delete dashboards
+- `apigateway:GET` to be able to check for available APIs
 
-- cloudwatch:PutDashboard to be able to create or modify dashboards
+To view the dashboard afterwards following permissions are required
 
-- cloudwatch:DeleteDashboards to be able to delete dashboards
-
-- apigateway:GET to be able to check for available APIs
-
+- `cloudwatch:GetDashboard`
+- `cloudwatch:ListDashboards`
 
 ## AWS Dashboard limits
 

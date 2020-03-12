@@ -66,6 +66,9 @@ Options passed on the command line override YAML options.
 ## Usage
 Once configured the plugin will run each time you deploy your serverless app and update CloudWatch dashboard to the current structure of the app. 
 
+#### Running the plugin with commands
+In your project root run: `serverless dashboard create` or `serverless dashboard remove` to create or remove the CloudWatch dashboard. Optionally in the CLI you can add flags(stage,region, etc.)
+
 The message seen after deploy
 ![Image of create dashboard](https://user-images.githubusercontent.com/18051308/76213593-4b8e4a00-620b-11ea-9fb5-7151ff0ef361.png)
 

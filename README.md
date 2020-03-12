@@ -77,7 +77,6 @@ Created Dashboard
 On deleting the stack from the command line, the plugin will delete the dashboard.
 ![Image of removed dashboard](https://user-images.githubusercontent.com/18051308/75879020-e2799180-5e1a-11ea-8c03-dbcf38c32783.png)
 
-
 ## AWS Permissions
 
 Listed below are AWS permissions needed for a sucessful deploy with serverless-dashboard-plugin 

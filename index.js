@@ -38,7 +38,7 @@ class DashboardPlugin {
       this.serverless.service.provider.stage,
       configuration
     );
-  };
+  }
 
   initializeDashboardRemove() {
     return this.removeDashboard(
@@ -46,7 +46,7 @@ class DashboardPlugin {
       this.serverless.service.provider.region,
       this.serverless.service.provider.stage
     );
-  };
+  }
 
   mergeConfiguration(yamlConfiguration, cliConfiguration) {
     const configuration = yamlConfiguration || {};

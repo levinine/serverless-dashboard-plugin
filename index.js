@@ -6,26 +6,47 @@ class DashboardPlugin {
   constructor(serverless, options) {
     this.serverless = serverless;
     this.options = options;
-    this.hooks = {
-      'after:deploy:finalize': () => {
-        const configuration = this.mergeConfiguration(this.serverless.service.custom.serverlessDashboard, this.options);
-        return this.createDashboard(
-          this.serverless.service.functions,
-          this.serverless.service.service,
-          this.serverless.service.provider.region,
-          this.serverless.service.provider.stage,
-          configuration
-        );
-      },
-      'remove:remove': () => {
-        return this.removeDashboard(
-          this.serverless.service.service,
-          this.serverless.service.provider.region,
-          this.serverless.service.provider.stage
-        );
+    this.commands = {
+      dashboard: {
+        commands: {
+          create: {
+            lifecycleEvents: ['init'],
+            usage: 'This command takes the current structure of the application and creates/updates CloudWatch dashboard.'
+          },
+          remove: {
+            lifecycleEvents: ['init'],
+            usage: 'This command removes the dashboard from CloudWatch'
+          }
+        }
       }
     };
+
+    this.hooks = {
+      'after:deploy:finalize': () => this.initializeDashboardCreate(),
+      'remove:remove': () => this.initializeDashboardRemove(),
+      'dashboard:create:init': () => this.initializeDashboardCreate(),
+      'dashboard:remove:init': () => this.initializeDashboardRemove()
+    };
   }
+
+  initializeDashboardCreate() {
+    const configuration = this.mergeConfiguration(this.serverless.service.custom.serverlessDashboard, this.options);
+    return this.createDashboard(
+      this.serverless.service.functions,
+      this.serverless.service.service,
+      this.serverless.service.provider.region,
+      this.serverless.service.provider.stage,
+      configuration
+    );
+  };
+
+  initializeDashboardRemove() {
+    return this.removeDashboard(
+      this.serverless.service.service,
+      this.serverless.service.provider.region,
+      this.serverless.service.provider.stage
+    );
+  };
 
   mergeConfiguration(yamlConfiguration, cliConfiguration) {
     const configuration = yamlConfiguration || {};

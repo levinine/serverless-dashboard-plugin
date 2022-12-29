@@ -1,8 +1,8 @@
-const AWS = require('aws-sdk');
+const { APIGatewayClient, GetRestApiCommand } = require('@aws-sdk/client-api-gateway');
 
 class ApiGateway {
   constructor(apiName, region) {
-    this.apigateway = new AWS.APIGateway({ region });
+    this.apigateway = new APIGatewayClient({ region });
     this.checkApi = this.checkApi.bind(this);
     this.apiName = apiName;
   }
@@ -12,8 +12,13 @@ class ApiGateway {
   }
 
   async getApi() {
-    const result = await this.apigateway.getRestApis({}).promise();
-    return result.items.find(this.checkApi);
+       const command = new GetRestApiCommand({});
+       try {
+         const result = await this.apigateway.send(command);
+         return result.items.find(this.checkApi);
+       } catch (error) {
+         return error
+       }
   }
 }
 
